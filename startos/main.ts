@@ -1,5 +1,4 @@
 import { sdk } from './sdk'
-import { uiPort } from './utils'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -7,34 +6,36 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('Starting Hello World!')
+  console.info('Starting SV2 Translator Proxy!')
 
   /**
    * ======================== Daemons ========================
    *
    * In this section, we create one or more daemons that define the service runtime.
    *
-   * Each daemon defines its own health check, which can optionally be exposed to the user.
+   * The SV2 Translator Proxy bridges SV1 mining devices to SV2 pools.
    */
   return sdk.Daemons.of(effects, started).addDaemon('primary', {
     subcontainer: await sdk.SubContainer.of(
       effects,
-      { imageId: 'hello-world' },
+      { imageId: 'sv2-translator' },
       sdk.Mounts.of().mountVolume({
         volumeId: 'main',
         subpath: null,
         mountpoint: '/data',
         readonly: false,
       }),
-      'hello-world-sub',
+      'sv2-translator-sub',
     ),
-    exec: { command: ['hello-world'] },
+    exec: {
+      command: ['translator_sv2', '-c', '/data/config.toml']
+    },
     ready: {
-      display: 'Web Interface',
+      display: 'SV2 Translator Service',
       fn: () =>
-        sdk.healthCheck.checkPortListening(effects, uiPort, {
-          successMessage: 'The web interface is ready',
-          errorMessage: 'The web interface is not ready',
+        sdk.healthCheck.checkPortListening(effects, 34255, {
+          successMessage: 'The SV2 Translator is accepting SV1 connections',
+          errorMessage: 'The SV2 Translator is not ready',
         }),
     },
     requires: [],

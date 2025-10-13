@@ -1,24 +1,25 @@
 import { sdk } from './sdk'
-import { uiPort } from './utils'
+import { downstreamPort } from './utils'
 
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
-  const uiMulti = sdk.MultiHost.of(effects, 'ui-multi')
-  const uiMultiOrigin = await uiMulti.bindPort(uiPort, {
-    protocol: 'http',
+  // SV2 Translator exposes a TCP interface for mining devices
+  const downstreamMulti = sdk.MultiHost.of(effects, 'downstream-multi')
+  const downstreamMultiOrigin = await downstreamMulti.bindPort(downstreamPort, {
+    protocol: 'tcp',
   })
-  const ui = sdk.createInterface(effects, {
-    name: 'Web UI',
-    id: 'ui',
-    description: 'The web interface of Hello World',
-    type: 'ui',
+  const downstreamInterface = sdk.createInterface(effects, {
+    name: 'Stratum Mining',
+    id: 'stratum-mining',
+    description: 'Stratum mining interface for connecting mining devices',
+    type: 'tcp',
     masked: false,
     schemeOverride: null,
     username: null,
-    path: '',
-    query: {},
+    path: null,
+    query: null,
   })
 
-  const uiReceipt = await uiMultiOrigin.export([ui])
+  const downstreamReceipt = await downstreamMultiOrigin.export([downstreamInterface])
 
-  return [uiReceipt]
+  return [downstreamReceipt]
 })

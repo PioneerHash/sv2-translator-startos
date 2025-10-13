@@ -1,8 +1,5 @@
 // Here we define any constants or functions that are shared by multiple components
-// throughout the package codebase. This file will be unnecessary for many packages.
+// throughout the package codebase.
 
-export function getSecretPhrase(name: string): string {
-  return `Knock knock. Who's there? ${name}!`
-}
-
-export const uiPort = 80
+// Default downstream port for mining devices to connect
+export const downstreamPort = 34255

@@ -1,2 +1,40 @@
+# Git
 .git
+.gitignore
 .gitmodules
+
+# Documentation
+README.md
+*.md
+
+# Build artifacts
+target/
+javascript/
+node_modules/
+*.s9pk
+
+# StartOS development
+.startos/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Test files and docs
+sv2-apps/pool-apps/
+sv2-apps/test/
+sv2-apps/.github/
+sv2-apps/scripts/
+
+# Config files not needed in build
+Makefile
+package.json
+package-lock.json
+tsconfig.json
+startos/
