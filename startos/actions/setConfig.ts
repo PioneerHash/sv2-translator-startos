@@ -1,20 +1,18 @@
 import { sdk } from '../sdk'
 import { configToml } from '../fileModels/config.toml'
 
-const { InputSpec, Value } = sdk
+const { InputSpec, Value, List } = sdk
 
-export const inputSpec = InputSpec.of({
-  // Upstream SV2 Pool/JDC Connection
-  upstream_address: Value.text({
-    name: 'Upstream Pool Address',
-    description:
-      'IP address or hostname of the upstream SV2 pool or Job Declarator Client',
+const upstreamSpec = InputSpec.of({
+  address: Value.text({
+    name: 'Pool Address',
+    description: 'IP address or hostname of the upstream SV2 pool',
     required: true,
     default: '75.119.150.111',
     placeholder: '75.119.150.111',
   }),
-  upstream_port: Value.number({
-    name: 'Upstream Pool Port',
+  port: Value.number({
+    name: 'Pool Port',
     description:
       'Port number for the upstream SV2 pool (typically 34254 for pool, 34265 for JDC)',
     required: true,
@@ -23,23 +21,44 @@ export const inputSpec = InputSpec.of({
     max: 65535,
     integer: true,
   }),
-  upstream_authority_pubkey: Value.text({
-    name: 'Upstream Authority Public Key',
+  authority_pubkey: Value.text({
+    name: 'Authority Public Key',
     description: 'The authority public key of the upstream SV2 pool',
     required: true,
     default: '9auqWEzQDVyd2oe1JVGFLMLHZtCo2FFqZwtKA5gd9xbuEu7PH72',
     placeholder: '9auqWEzQDVyd2oe1JVGFLMLHZtCo2FFqZwtKA5gd9xbuEu7PH72',
   }),
+})
+
+export const inputSpec = InputSpec.of({
+  // User Identity
+  user_identity: Value.text({
+    name: 'User Identity / Username',
+    description:
+      'Username for pool connection. Will be appended with a counter for each mining client (e.g., username.miner1, username.miner2)',
+    required: true,
+    default: 'start9',
+    placeholder: 'start9',
+  }),
 
   // Extranonce Configuration
-  min_extranonce2_size: Value.number({
-    name: 'Minimum Extranonce2 Size',
-    description: 'Minimum extranonce2 size (2-16, CGminer max: 8)',
+  downstream_extranonce2_size: Value.number({
+    name: 'Downstream Extranonce2 Size',
+    description:
+      'Extranonce2 size for downstream connections. Controls the rollable part of the extranonce for downstream SV1 miners (Max for CGminer: 8, Min: 2)',
     required: true,
     default: 4,
     min: 2,
     max: 16,
     integer: true,
+  }),
+
+  // Channel Aggregation
+  aggregate_channels: Value.toggle({
+    name: 'Aggregate Channels',
+    description:
+      'If enabled, all miners share one upstream channel. If disabled, each miner gets its own channel',
+    default: true,
   }),
 
   // Downstream Difficulty Configuration
@@ -68,35 +87,29 @@ export const inputSpec = InputSpec.of({
         max: 60,
         integer: false,
       }),
+      enable_vardiff: Value.toggle({
+        name: 'Enable Variable Difficulty',
+        description:
+          'Enable variable difficulty adjustment (set to false when using with Job Declarator Client)',
+        default: true,
+      }),
     }),
   ),
 
-  // Upstream Difficulty Configuration
-  upstream_difficulty_config: Value.object(
-    {
-      name: 'Upstream Difficulty Settings',
-      description: 'Difficulty settings for pool communication',
-    },
-    InputSpec.of({
-      channel_diff_update_interval: Value.number({
-        name: 'Channel Difficulty Update Interval (seconds)',
+  // Upstream SV2 Pool/JDC Connections
+  upstreams: Value.list(
+    List.obj(
+      {
+        name: 'Upstream Pools',
         description:
-          'Seconds to wait before updating channel hashrate with the pool',
-        required: true,
-        default: 60,
-        min: 1,
-        integer: true,
-      }),
-      channel_nominal_hashrate: Value.number({
-        name: 'Channel Nominal Hashrate (H/s)',
-        description:
-          'Total estimated hashrate of all downstream miners in hashes per second',
-        required: true,
-        default: 10000000000000,
-        min: 1000000000,
-        integer: false,
-      }),
-    }),
+          'SV2 pool connections (add multiple for failover support). The first pool will be used as primary, others as backups',
+      },
+      {
+        spec: upstreamSpec,
+        displayAs: '{{address}}:{{port}}',
+        uniqueBy: 'address',
+      },
+    ),
   ),
 })
 

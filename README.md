@@ -21,7 +21,7 @@ The SV2 Translator Proxy provides protocol translation services for Stratum V2 m
 
 Follow the StartOS documentation [guides](https://docs.start9.com/packaging-guide/environment-setup.html) to set up your development environment.
 
-The service uses the [sv2-apps](https://github.com/stratum-mining/sv2-apps) repository as a submodule for the Translator implementation.
+The service uses the [stratum](https://github.com/stratum-mining/stratum) repository as a submodule for the Translator implementation.
 
 ## Building
 
@@ -38,4 +38,4 @@ The Translator requires configuration to connect to an upstream SV2 pool. Config
 - Downstream listening address and port (default: 34255)
 - Difficulty parameters for both upstream and downstream connections
 
-See the [Translator documentation](https://github.com/stratum-mining/sv2-apps/blob/main/miner-apps/translator/README.md) for detailed configuration options.
+See the [Translator documentation](https://github.com/stratum-mining/stratum/blob/main/roles/translator/README.md) for detailed configuration options.

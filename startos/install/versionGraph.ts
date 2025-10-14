@@ -10,12 +10,6 @@ export const versionGraph = VersionGraph.of({
   preInstall: async (effects) => {
     ;(await Promise.all([
       configToml.write(effects, {
-        // Upstream SV2 Pool/JDC Connection
-        upstream_address: '75.119.150.111',
-        upstream_port: 34254,
-        upstream_authority_pubkey:
-          '9auqWEzQDVyd2oe1JVGFLMLHZtCo2FFqZwtKA5gd9xbuEu7PH72',
-
         // Downstream Mining Device Connection
         downstream_address: '0.0.0.0',
         downstream_port: 34255,
@@ -25,20 +19,33 @@ export const versionGraph = VersionGraph.of({
         max_supported_version: 2,
 
         // Extranonce Configuration
-        min_extranonce2_size: 4,
+        downstream_extranonce2_size: 4,
+
+        // User Identity
+        user_identity: 'start9',
+
+        // Channel Aggregation
+        aggregate_channels: true,
+
+        // Log File
+        log_file: './tproxy.log',
 
         // Downstream Difficulty Configuration
         downstream_difficulty_config: {
           min_individual_miner_hashrate: 10000000000000,
           shares_per_minute: 6.0,
+          enable_vardiff: true,
         },
 
-        // Upstream Difficulty Configuration
-        upstream_difficulty_config: {
-          channel_diff_update_interval: 60,
-          channel_nominal_hashrate: 10000000000000,
-        },
-        log_file: './tproxy.log',
+        // Upstream SV2 Pool/JDC Connections
+        upstreams: [
+          {
+            address: '75.119.150.111',
+            port: 34254,
+            authority_pubkey:
+              '9auqWEzQDVyd2oe1JVGFLMLHZtCo2FFqZwtKA5gd9xbuEu7PH72',
+          },
+        ],
       }),
     ]),
       // critical - needs to be done before start

@@ -27,10 +27,12 @@ node_modules/
 .DS_Store
 
 # Test files and docs
-sv2-apps/pool-apps/
-sv2-apps/test/
-sv2-apps/.github/
-sv2-apps/scripts/
+stratum/roles/pool/
+stratum/roles/jd-client/
+stratum/roles/jd-server/
+stratum/test-utils/
+stratum/.github/
+stratum/scripts/
 
 # Config files not needed in build
 Makefile
