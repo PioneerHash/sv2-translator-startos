@@ -4,11 +4,11 @@ FROM rust:1.89-bookworm AS builder
 # Set working directory
 WORKDIR /build
 
-# Copy the sv2-apps source
-COPY sv2-apps ./sv2-apps
+# Copy the stratum source
+COPY stratum ./stratum
 
 # Build the translator from the workspace
-WORKDIR /build/sv2-apps/miner-apps
+WORKDIR /build/stratum/roles
 RUN cargo build --release --package translator_sv2
 
 # Stage 2: Create minimal runtime image
@@ -18,10 +18,10 @@ FROM debian:bookworm-slim
 RUN mkdir -p /app/config /app/data
 
 # Copy the binary from builder
-COPY --from=builder /build/sv2-apps/miner-apps/target/release/translator_sv2 /usr/local/bin/translator_sv2
+COPY --from=builder /build/stratum/roles/target/release/translator_sv2 /usr/local/bin/translator_sv2
 
 # Copy config examples for reference
-COPY sv2-apps/miner-apps/translator/config-examples /app/config-examples
+COPY stratum/roles/translator/config-examples /app/config-examples
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/
