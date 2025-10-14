@@ -1,13 +1,6 @@
 # Stage 1: Build the translator
 FROM rust:1.89-bookworm AS builder
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    pkg-config \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
-
 # Set working directory
 WORKDIR /build
 
@@ -20,12 +13,6 @@ RUN cargo build --release --package translator_sv2
 
 # Stage 2: Create minimal runtime image
 FROM debian:bookworm-slim
-
-# Install runtime dependencies
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    libssl3 \
-    && rm -rf /var/lib/apt/lists/*
 
 # Create app directories
 RUN mkdir -p /app/config /app/data

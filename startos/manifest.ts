@@ -24,7 +24,12 @@ export const manifest = setupManifest({
   volumes: ['main'],
   images: {
     'sv2-translator': {
-      source: { dockerTag: 'start9/sv2-translator' },
+      source: {
+        dockerBuild: {
+          dockerfile: 'Dockerfile',
+          workdir: '.',
+        },
+      },
       arch: architectures,
     } as SDKImageInputSpec,
   },

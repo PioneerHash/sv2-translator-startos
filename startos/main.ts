@@ -13,7 +13,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we create one or more daemons that define the service runtime.
    *
-   * The SV2 Translator Proxy bridges SV1 mining devices to SV2 pools.
+   * The SV2 Translator Proxy provides Stratum V2 protocol translation for mining devices.
    */
   return sdk.Daemons.of(effects, started).addDaemon('primary', {
     subcontainer: await sdk.SubContainer.of(
@@ -34,7 +34,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       display: 'SV2 Translator Service',
       fn: () =>
         sdk.healthCheck.checkPortListening(effects, 34255, {
-          successMessage: 'The SV2 Translator is accepting SV1 connections',
+          successMessage: 'The SV2 Translator is accepting mining device connections',
           errorMessage: 'The SV2 Translator is not ready',
         }),
     },
