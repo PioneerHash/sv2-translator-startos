@@ -27,9 +27,6 @@ node_modules/
 .DS_Store
 
 # Test files and docs
-stratum/roles/pool/
-stratum/roles/jd-client/
-stratum/roles/jd-server/
 stratum/test-utils/
 stratum/.github/
 stratum/scripts/
