@@ -75,6 +75,7 @@ export const inputSpec = InputSpec.of({
         required: true,
         default: 10,
         min: 0.001,
+        max: 10000,
         integer: false,
       }),
       shares_per_minute: Value.number({
