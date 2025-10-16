@@ -1,14 +1,14 @@
 import { sdk } from './sdk'
-import { downstreamPort } from './utils'
+import { DOWNSTREAM_PORT } from './utils'
 
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   // SV2 Translator exposes a TCP interface for mining devices
   const downstreamMulti = sdk.MultiHost.of(effects, 'downstream-multi')
-  const downstreamMultiOrigin = await downstreamMulti.bindPort(downstreamPort, {
+  const downstreamMultiOrigin = await downstreamMulti.bindPort(DOWNSTREAM_PORT, {
     protocol: null,
-    preferredExternalPort: downstreamPort,
     addSsl: null,
-    secure: null
+    preferredExternalPort: DOWNSTREAM_PORT,
+    secure: { ssl: false }
   })
   const downstreamInterface = sdk.createInterface(effects, {
     name: 'Sv2 Translator Mining',

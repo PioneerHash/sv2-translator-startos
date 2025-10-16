@@ -69,12 +69,12 @@ export const inputSpec = InputSpec.of({
     },
     InputSpec.of({
       min_individual_miner_hashrate: Value.number({
-        name: 'Minimum Miner Hashrate (H/s)',
+        name: 'Minimum Miner Hashrate (TH/s)',
         description:
-          'Hashrate of the weakest miner in hashes per second (e.g., 10 TH/s = 10000000000000)',
+          'Hashrate of the weakest miner in terahashes per second (e.g., 10 TH/s)',
         required: true,
-        default: 10000000000000,
-        min: 1000000000,
+        default: 10,
+        min: 0.001,
         integer: false,
       }),
       shares_per_minute: Value.number({
@@ -122,7 +122,7 @@ export const setConfig = sdk.Action.withInput(
     name: 'Configure Translator',
     description:
       'Configure SV2 Translator Proxy settings for pool and mining device connections',
-    warning: 'Changing these settings will require restarting the service',
+    warning: null,
     allowedStatuses: 'any',
     group: null,
     visibility: 'enabled',
@@ -132,10 +132,30 @@ export const setConfig = sdk.Action.withInput(
   inputSpec,
 
   // optionally pre-fill the input form
-  async ({ effects }) => configToml.read().const(effects),
+  async ({ effects }) => {
+    const config = await configToml.read().const(effects)
+    // Convert H/s to TH/s for display
+    return {
+      ...config,
+      downstream_difficulty_config: {
+        ...config.downstream_difficulty_config,
+        min_individual_miner_hashrate:
+          config.downstream_difficulty_config.min_individual_miner_hashrate / 1e12,
+      },
+    }
+  },
 
   // the execution function
   async ({ effects, input }) => {
-    await configToml.merge(effects, input)
+    // Convert TH/s to H/s for storage
+    const configData = {
+      ...input,
+      downstream_difficulty_config: {
+        ...input.downstream_difficulty_config,
+        min_individual_miner_hashrate:
+          input.downstream_difficulty_config.min_individual_miner_hashrate * 1e12,
+      },
+    }
+    await configToml.merge(effects, configData)
   },
 )

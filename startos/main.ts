@@ -1,3 +1,4 @@
+import { configToml } from './fileModels/config.toml'
 import { sdk } from './sdk'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
@@ -7,6 +8,10 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
   console.info('Starting SV2 Translator Proxy!')
+
+  // watch the config.toml for changes and restart
+  // read(file => file.whatever) watches specific aspects of the file
+  await configToml.read().const(effects)
 
   /**
    * ======================== Daemons ========================

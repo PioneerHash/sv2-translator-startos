@@ -2,4 +2,4 @@
 // throughout the package codebase.
 
 // Default downstream port for mining devices to connect
-export const downstreamPort = 34255
+export const DOWNSTREAM_PORT = 34255
