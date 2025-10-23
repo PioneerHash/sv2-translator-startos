@@ -8,9 +8,9 @@ const architectures =
 
 export const manifest = setupManifest({
   id: 'sv2-translator',
-  title: 'SV2 Translator Proxy',
+  title: 'Pioneer Hash TProxy',
   license: 'MIT OR Apache-2.0',
-  wrapperRepo: 'https://github.com/Start9Labs/sv2-translator-startos',
+  wrapperRepo: 'https://github.com/PioneerHash/sv2-translator-startos',
   upstreamRepo: 'https://github.com/stratum-mining/stratum',
   supportSite: 'https://stratumprotocol.org',
   marketingSite: 'https://stratumprotocol.org',
@@ -18,8 +18,8 @@ export const manifest = setupManifest({
   docsUrl:
     'https://github.com/stratum-mining/stratum/blob/main/roles/translator/README.md',
   description: {
-    short: 'Stratum V2 protocol translation for mining',
-    long: 'The SV2 Translator Proxy provides Stratum V2 protocol translation services for mining devices, enabling enhanced efficiency, security, and flexibility for Bitcoin mining operations.',
+    short: 'Pioneer Hash SV2 Translation Proxy',
+    long: 'Pioneer Hash TProxy provides Stratum V2 (SV2) protocol translation services for SV1 mining devices, enabling enhanced efficiency, security, and flexibility for Bitcoin mining operations.',
   },
   volumes: ['main'],
   images: {

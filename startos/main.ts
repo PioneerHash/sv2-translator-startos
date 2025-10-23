@@ -7,7 +7,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('Starting SV2 Translator Proxy!')
+  console.info('Starting Pioneer Hash TProxy!')
 
   // watch the config.toml for changes and restart
   // read(file => file.whatever) watches specific aspects of the file
@@ -18,7 +18,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we create one or more daemons that define the service runtime.
    *
-   * The SV2 Translator Proxy provides Stratum V2 protocol translation for mining devices.
+   * Pioneer Hash TProxy provides Stratum V2 protocol translation for mining devices.
    */
   return sdk.Daemons.of(effects, started).addDaemon('primary', {
     subcontainer: await sdk.SubContainer.of(
@@ -36,11 +36,11 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       command: ['translator_sv2', '-c', '/data/config.toml']
     },
     ready: {
-      display: 'SV2 Translator Service',
+      display: 'Pioneer Hash TProxy Service',
       fn: () =>
         sdk.healthCheck.checkPortListening(effects, 34255, {
-          successMessage: 'The SV2 Translator is accepting mining device connections',
-          errorMessage: 'The SV2 Translator is not ready',
+          successMessage: 'Pioneer Hash TProxy is accepting mining device connections',
+          errorMessage: 'Pioneer Hash TProxy is not ready',
         }),
     },
     requires: [],

@@ -2,20 +2,9 @@
   <img src="icon.png" alt="Project Logo" width="21%">
 </p>
 
-# SV2 Translator Proxy for StartOS
+# Pioneer Hash TProxy for StartOS
 
-A StartOS service package for the Stratum V2 Translator Proxy, enabling mining device connectivity with SV2 pools.
-
-## About
-
-The SV2 Translator Proxy provides protocol translation services for Stratum V2 mining operations. It enables mining devices to connect to SV2 pools with enhanced efficiency, security, and flexibility.
-
-### Features
-
-- Stratum V2 protocol translation
-- Enhanced security with encrypted connections to SV2 pools
-- Improved efficiency and reduced bandwidth usage
-- Support for custom block templates (when used with Job Declarator)
+Pioneer Hash TProxy is a StartOS service package for the Stratum V2 (SV2) Translation Proxy, enabling SV1 mining device connectivity with SV2 pools.
 
 ## Setup
 
@@ -31,7 +20,7 @@ make
 
 ## Configuration
 
-The Translator requires configuration to connect to an upstream SV2 pool. Configuration options include:
+Pioneer Hash TProxy requires configuration to connect to an upstream SV2 pool. Configuration options include:
 
 - Upstream SV2 pool address and port
 - Upstream pool authority public key
