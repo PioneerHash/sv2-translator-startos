@@ -23,14 +23,14 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   return sdk.Daemons.of(effects, started).addDaemon('primary', {
     subcontainer: await sdk.SubContainer.of(
       effects,
-      { imageId: 'sv2-translator' },
+      { imageId: 'sv2-tproxy' },
       sdk.Mounts.of().mountVolume({
         volumeId: 'main',
         subpath: null,
         mountpoint: '/data',
         readonly: false,
       }),
-      'sv2-translator-sub',
+      'sv2-tproxy-sub',
     ),
     exec: {
       command: ['translator_sv2', '-c', '/data/config.toml']

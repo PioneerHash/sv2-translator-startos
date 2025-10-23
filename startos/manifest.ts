@@ -7,7 +7,7 @@ const architectures =
   BUILD === 'x86_64' || BUILD === 'aarch64' ? [BUILD] : ['x86_64', 'aarch64']
 
 export const manifest = setupManifest({
-  id: 'sv2-translator',
+  id: 'sv2-tproxy',
   title: 'Pioneer Hash TProxy',
   license: 'MIT OR Apache-2.0',
   wrapperRepo: 'https://github.com/PioneerHash/sv2-translator-startos',
@@ -23,7 +23,7 @@ export const manifest = setupManifest({
   },
   volumes: ['main'],
   images: {
-    'sv2-translator': {
+    'sv2-tproxy': {
       source: {
         dockerBuild: {
           dockerfile: 'Dockerfile',

@@ -135,6 +135,9 @@ export const setConfig = sdk.Action.withInput(
   // optionally pre-fill the input form
   async ({ effects }) => {
     const config = await configToml.read().const(effects)
+    if (!config) {
+      return null
+    }
     // Convert H/s to TH/s for display
     return {
       ...config,
